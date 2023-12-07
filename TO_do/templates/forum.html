@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      h1, h2 {
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      hr {
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        border: none;
+        border-top: 1px solid #ccc;
+      }
+
+    </style>
+    <title>List</title>
+  </head>
+  <body>
+    <h1>Create a task</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li class="alert alert-{{ message[1] }}">{{ message[0] }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('forum') }}" method="post">
+      <label for="username">username:</label>
+      <input type="text" name="username" required><br><br>
+      <label for="title">Todo:</label>
+      <input type="text" name="title" required><br><br>
+      <label for="content">Content:</label>
+      <textarea name="content" required></textarea><br><br>
+      <input type="submit" value="Submit">
+    </form>
+    <br><a href="{{ url_for('index') }}">Return to Home</a>
+  </body>
+</html>

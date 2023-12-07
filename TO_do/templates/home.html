@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      h1, h2 {
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      hr {
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        border: none;
+        border-top: 1px solid #f06565;
+      }
+
+    </style>
+    <title>Todo List</title>
+    <h1 style="background-color: #f06565;">Todo List</h1>
+  </head>
+  <body style="background-color: rgb(99, 228, 228);">
+    <div class="search-container">
+      <form action="{{ url_for('index') }}" method="get">
+        <select name="filter">
+          <option value="title">Title</option>
+          <option value="username">Username</option>
+        </select>
+        <label for="query">Search:</label>
+        <input type="text" name="query" value="{{ query }}"><br><br>
+        <input type="submit" value="Search">
+      </form>
+    </div>
+    {% if num_posts > 0 %}
+      <p>Number of tasks is {{num_posts}}:</p>
+    {% else %}
+      <p>No tasks found.</p>
+    {% endif %}
+    {% for post in posts %}
+      <h2>{{ post.username }}</h2>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+      <a href="{{ url_for('edit', post_id=post['_id']) }}">Edit</a>
+      <a href="{{ url_for('delete', post_id=post['_id']) }}">Delete</a>
+      <hr>
+    {% endfor %}
+    {% if num_pages > 1 %}
+      <div>
+        {% if page > 1 %}
+          <a href="{{ url_for('index', page=1, query=query) }}">First</a>
+          <a href="{{ url_for('index', page=page-1, query=query) }}">Prev</a>
+        {% endif %}
+        {% if page < num_pages %}
+          <a href="{{ url_for('index', page=page+1, query=query) }}">Next</a>
+          <a href="{{ url_for('index', page=num_pages, query=query) }}">Last</a>
+        {% endif %}
+      </div>
+    {% endif %}
+    <br><a href="{{ url_for('forum') }}">Create New task</a>
+  </body>
+</html>
